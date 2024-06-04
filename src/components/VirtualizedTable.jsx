@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "react-virtualized/styles.css";
 import { Table, Column, AutoSizer, CellMeasurerCache } from "react-virtualized";
@@ -9,21 +8,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
-// Conversion rates relative to USD
 const conversionRates = {
   USD: 1,
   EUR: 0.92,
   GBP: 0.78,
-};
-
-// Convert JSON data to an array of objects
-const getItems = () => {
-  const keys = Object.keys(jsonData[0]);
-  const items = jsonData.map((item, index) => ({
-    id: `item-${index}`,
-    ...item,
-  }));
-  return items;
 };
 
 // a little function to help us with reordering the result
@@ -39,7 +27,7 @@ const getItemStyle = (style, isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nice
   userSelect: "none",
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "inherit",
+  background: isDragging ? "lightblue" : "inherit",
   // styles we need to apply on draggables
   ...draggableStyle,
   ...style,
@@ -47,13 +35,9 @@ const getItemStyle = (style, isDragging, draggableStyle) => ({
 
 const rowCache = {};
 
-// const cellMeasurerCache = new CellMeasurerCache({
-//   fixedWidth: true,
-//   defaultHeight: 170
-// });
 
 const App = () => {
-  const [items, setItems] = useState(getItems());
+  const [items, setItems] = useState(jsonData);
   const [currency, setCurrency] = useState("USD");
   const [decimalPlaces, setDecimalPlaces] = useState(2);
 
@@ -66,7 +50,6 @@ const App = () => {
   };
 
   const onDragEnd = (result) => {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -218,7 +201,7 @@ const App = () => {
                       "border-width": "0.1px",
                       "border-color": "lightgray",
                     }}
-                    headerStyle={{ "text-align": "center", margin: "0px" }}
+                    headerStyle={{ "text-align": "center", margin: "0px","text-transform": "capitalize" }}
                     gridStyle={{ "text-align": "center" }}
                     ref={(ref) => {
                       // react-virtualized has no way to get the list's ref that I can so
@@ -243,7 +226,6 @@ const App = () => {
                       flexGrow={0.5}
                       width={200}
                       className="border-r py-[18px] m-0 border-r-lightgray"
-                    // style={{"border-right":"solid","margin":"0px","padding":"18px 0px","border-color":"lightgray"}}
                     />
                     <Column
                       label="January"
@@ -363,8 +345,5 @@ const App = () => {
     </div>
   );
 };
-
-// Put the thing into the DOM!
-// ReactDOM.render(<App />, document.getElementById("root"));
 
 export default App;
